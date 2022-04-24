@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/list_screen_fragment">
+
+    <fragment
+        android:id="@+id/list_screen_fragment"
+        android:name="com.example.totalrecall.ListFragment"
+        android:label="list_fragment"
+        tools:layout="@layout/fragment_item_list">
+        <action
+            android:id="@+id/list_to_add"
+            app:destination="@id/add_resource_fragment" />
+        <action
+            android:id="@+id/list_to_detail"
+            app:destination="@id/resource_detail_fragment"/>
+        <action
+            android:id="@+id/list_to_tags"
+            app:destination="@id/tags_fragment"
+            />
+        <action
+            android:id="@+id/list_to_search"
+            app:destination="@id/search_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/add_resource_fragment"
+        android:name="com.example.totalrecall.AddResourceFragment"
+        tools:layout="@layout/fragment_add_resource">
+    </fragment>
+    <fragment
+        android:id="@+id/resource_detail_fragment"
+        android:name="com.example.totalrecall.ResourceDetailFragment"
+        android:label="fragment_resource_detail"
+        tools:layout="@layout/fragment_resource_detail" >
+        <action
+            android:id="@+id/detail_to_add"
+            app:destination="@id/add_resource_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tags_fragment"
+        android:name="com.example.totalrecall.TagsFragment"
+        android:label="fragment_tags"
+        tools:layout="@layout/fragment_tags" />
+    <fragment
+        android:id="@+id/search_fragment"
+        android:name="com.example.totalrecall.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+</navigation>

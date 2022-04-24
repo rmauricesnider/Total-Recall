@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/resource_background"
+    tools:context=".ResourceDetailFragment">
+
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dark_grey"
+        android:textSize="36sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Filler title"
+        android:layout_marginBottom="5dp"/>
+
+    <TextView
+        android:id="@+id/publisher_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@id/title_text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Filler publisher" />
+
+    <TextView
+        android:id="@+id/author_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@id/publisher_text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Filler author" />
+
+    <TextView
+        android:id="@+id/link_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/author_text"
+        android:layout_marginTop="24sp"
+        android:text="Filler Link"
+        android:autoLink="web"/>
+
+    <TextView
+        android:id="@+id/description_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/link_text"
+        android:layout_marginTop="10sp"
+        android:text="Filler description"
+        />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/tag_flow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/autocomplete_text_view"
+        android:layout_marginVertical="12dp"
+        app:flow_wrapMode="chain"/>
+
+    <AutoCompleteTextView
+        android:id="@+id/autocomplete_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:dropDownVerticalOffset="-400dp"
+        android:hint="@string/insert_tag_here"
+        android:dropDownHeight="210dp"
+        app:layout_constraintBottom_toTopOf="@id/add_tag_to_resource_button"/>
+
+    <Button
+        android:id="@+id/add_tag_to_resource_button"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/add_tag_to_resource" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

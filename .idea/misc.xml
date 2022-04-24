@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotalRecall/app/src/main/res/layout/item_detail.xml" value="0.11302083333333333" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotalRecall/app/src/main/res/layout/item_list_content.xml" value="0.11302083333333333" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotalRecall/app/src/main/res/menu/detail.xml" value="0.11302083333333333" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotallRecall/app/src/main/res/drawable/add_item_button.xml" value="0.153" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotallRecall/app/src/main/res/drawable/resource_background.xml" value="0.142" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotallRecall/app/src/main/res/drawable/tag_background.xml" value="0.142" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotallRecall/app/src/main/res/drawable/tag_button.xml" value="0.153" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotallRecall/app/src/main/res/layout/activity.xml" value="0.13177083333333334" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotallRecall/app/src/main/res/layout/fragment_item_list.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotallRecall/app/src/main/res/layout/fragment_resource_detail.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotallRecall/app/src/main/res/layout/fragment_search.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotallRecall/app/src/main/res/layout/recycler_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotallRecall/app/src/main/res/layout/tag_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotallRecall/app/src/main/res/menu/action_buttons.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotallRecall/app/src/main/res/menu/detail.xml" value="0.39849624060150374" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotallRecall/app/src/main/res/menu/main.xml" value="0.25416666666666665" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
