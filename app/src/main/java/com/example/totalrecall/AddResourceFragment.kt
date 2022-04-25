@@ -1,12 +1,13 @@
 package com.example.totalrecall
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import com.example.totalrecall.data.*
 import com.example.totalrecall.databinding.FragmentAddResourceBinding
@@ -15,10 +16,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
-private const val ARG_PARAM1 = "RES_ID"
+private const val RESOURCE_ID = "RES_ID"
+private const val SHARE_LINK = "SHARE_LINK"
 
 class AddResourceFragment : Fragment() {
-    private var param1: Int? = null
+    private var existingResourceID: Int? = null
+    private var newResourceLink: String? = null
 
     private var _binding: FragmentAddResourceBinding? = null
     private val binding get() = _binding!!
@@ -28,7 +31,8 @@ class AddResourceFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getInt(ARG_PARAM1)
+            existingResourceID = it.getInt(RESOURCE_ID)
+            newResourceLink = it.getString(SHARE_LINK)
         }
     }
 
@@ -47,10 +51,11 @@ class AddResourceFragment : Fragment() {
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     binding.typeField.adapter = adapter
                 }
-
-        if (param1 != null) {
+        if(!newResourceLink.isNullOrEmpty()) {
+            binding.linkField.setText(newResourceLink)
+        } else if (existingResourceID != null ) {
             CoroutineScope(Dispatchers.IO).launch {
-                resource = resourceRepository.getResource(param1!!)
+                resource = resourceRepository.getResource(existingResourceID!!)
                 binding.titleField.setText(resource.title)
                 binding.authorField.setText(resource.author)
                 binding.linkField.setText(resource.link)
@@ -58,6 +63,8 @@ class AddResourceFragment : Fragment() {
                 binding.descriptionField.setText(resource.description)
                 binding.typeField.setSelection(resource.type.ordinal)
                 binding.commitAdd.text = "Update Resource"
+
+                activity?.findViewById<Toolbar>(R.id.toolbar)?.title = "Update"
             }
         }
 
@@ -71,7 +78,7 @@ class AddResourceFragment : Fragment() {
                     description = binding.descriptionField.text.toString())
 
             CoroutineScope(Dispatchers.IO).launch {
-                if (param1 == null) {
+                if (existingResourceID == null) {
                     resourceRepository.addResource(newResource)
                 } else {
                     newResource.resourceId = resource.resourceId
@@ -79,7 +86,7 @@ class AddResourceFragment : Fragment() {
                 }
             }
 
-            if(param1 == null) {
+            if(existingResourceID == null) {
                 findNavController().previousBackStackEntry?.savedStateHandle?.set("ADDED",
                     newResource.resourceId)
             }

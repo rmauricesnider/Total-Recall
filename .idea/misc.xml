@@ -3,8 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotalRecall/app/src/main/res/drawable/add.xml" value="0.153" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotalRecall/app/src/main/res/drawable/delete.xml" value="0.153" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotalRecall/app/src/main/res/drawable/tag.xml" value="0.153" />
         <entry key="..\:/Users/Riley/AndroidStudioProjects/TotalRecall/app/src/main/res/layout/item_detail.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/Riley/AndroidStudioProjects/TotalRecall/app/src/main/res/layout/item_list_content.xml" value="0.11302083333333333" />
+        <entry key="..\:/Users/Riley/AndroidStudioProjects/TotalRecall/app/src/main/res/layout/tag_text_view.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Riley/AndroidStudioProjects/TotalRecall/app/src/main/res/menu/detail.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/Riley/AndroidStudioProjects/TotallRecall/app/src/main/res/drawable/add_item_button.xml" value="0.153" />
         <entry key="..\:/Users/Riley/AndroidStudioProjects/TotallRecall/app/src/main/res/drawable/resource_background.xml" value="0.142" />

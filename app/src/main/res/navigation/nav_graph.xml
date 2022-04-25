@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/list_screen_fragment"
         android:name="com.example.totalrecall.ListFragment"
-        android:label="list_fragment"
+        android:label="Total Recall"
         tools:layout="@layout/fragment_item_list">
         <action
             android:id="@+id/list_to_add"
@@ -27,12 +27,13 @@
     <fragment
         android:id="@+id/add_resource_fragment"
         android:name="com.example.totalrecall.AddResourceFragment"
-        tools:layout="@layout/fragment_add_resource">
+        tools:layout="@layout/fragment_add_resource"
+        android:label="Add">
     </fragment>
     <fragment
         android:id="@+id/resource_detail_fragment"
         android:name="com.example.totalrecall.ResourceDetailFragment"
-        android:label="fragment_resource_detail"
+        android:label="Resource"
         tools:layout="@layout/fragment_resource_detail" >
         <action
             android:id="@+id/detail_to_add"
@@ -41,11 +42,11 @@
     <fragment
         android:id="@+id/tags_fragment"
         android:name="com.example.totalrecall.TagsFragment"
-        android:label="fragment_tags"
+        android:label="Tags"
         tools:layout="@layout/fragment_tags" />
     <fragment
         android:id="@+id/search_fragment"
         android:name="com.example.totalrecall.SearchFragment"
-        android:label="fragment_search"
+        android:label="Search"
         tools:layout="@layout/fragment_search" />
 </navigation>
