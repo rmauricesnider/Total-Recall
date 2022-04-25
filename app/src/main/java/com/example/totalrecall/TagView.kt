@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat
 
 class TagView(context: Context) : View(context) {
     private var tagText: String = "Null"
-    private var mColor: Int = R.color.purple_500
+    private var mColor: Int = R.color.green
     private var r = Rect()
     private val rectPaint = Paint()
     private val textPaint = Paint().apply {
