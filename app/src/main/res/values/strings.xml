@@ -13,6 +13,7 @@
     <string name="tags">Tags</string>
     <string name="clear_unbound_tags">Clear unbound tags</string>
     <string name="settings">Settings</string>
+    <string name="resource_list">Resource List:</string>
     <string name="add_tag_to_search">Add tag to search</string>
     <string name="insert_tag_here">Insert tag here</string>
     <string name="add_tag_to_resource">Add tag</string>

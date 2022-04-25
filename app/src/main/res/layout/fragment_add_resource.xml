@@ -1,63 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".AddResourceFragment"
-    android:background="@drawable/resource_background"
-    android:layout_margin="5dp">
+    android:layout_margin="@dimen/margin_inner_page"
+    android:background="@color/white"
+    android:padding="@dimen/margin_small"
+    tools:context=".AddResourceFragment">
 
     <EditText
         android:id="@+id/titleField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:inputType="textNoSuggestions"
         android:hint="@string/title"
+        android:inputType="textNoSuggestions"
         android:textColorHint="@color/dark_grey"
-        android:textSize="24sp"/>
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/authorField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/titleField"
-        android:inputType="textNoSuggestions"
         android:hint="@string/author"
+        android:inputType="textNoSuggestions"
         android:textColorHint="@color/dark_grey"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/titleField" />
+
     <EditText
         android:id="@+id/linkField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/authorField"
-        android:inputType="textNoSuggestions"
         android:hint="@string/link"
+        android:inputType="textNoSuggestions"
         android:textColorHint="@color/dark_grey"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/authorField" />
 
     <Spinner
         android:id="@+id/typeField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/linkField"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/linkField" />
 
     <EditText
         android:id="@+id/descriptionField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/typeField"
-        android:inputType="textNoSuggestions"
         android:hint="@string/short_description"
-        android:textColorHint="@color/dark_grey"/>
+        android:inputType="textNoSuggestions"
+        android:textColorHint="@color/dark_grey"
+        app:layout_constraintTop_toBottomOf="@id/typeField" />
 
     <Button
         android:id="@+id/commitAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/add_resource"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/add_resource" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
