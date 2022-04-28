@@ -1,8 +1,5 @@
 package com.example.totalrecall
 
-import android.app.AlertDialog
-import android.app.Dialog
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -10,18 +7,19 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.*
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.ViewCompat.generateViewId
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.totalrecall.data.*
 import com.example.totalrecall.databinding.FragmentResourceDetailBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.NonCancellable.start
 import kotlinx.coroutines.launch
 
 private const val ARG_PARAM1 = "RES_ID"
@@ -61,6 +59,9 @@ class ResourceDetailFragment : Fragment() {
                 binding.linkText.text = resource.link
                 binding.linkText.movementMethod = LinkMovementMethod.getInstance()
                 binding.publisherText.text = resource.publisher
+                if(resource.publisher.isNullOrEmpty()) {
+                    binding.publisherText.height = 0
+                }
                 binding.descriptionText.text = resource.description
                 addViewsToFlow(resourceRepository!!.getTagsFromResourceId(resource.resourceId))
                 setAutoCompleteTextViewAdapter(binding.autocompleteTextView, resourceRepository!!.getAllTagNames())
@@ -160,8 +161,9 @@ class ResourceDetailFragment : Fragment() {
             } else {
                 CoroutineScope(Dispatchers.IO).launch {
                     resourceRepository!!.deleteResource(resource)
-                    showToast("Deleted Resource")
                 }
+                findNavController().previousBackStackEntry?.savedStateHandle?.set("DELETED", resource.resourceId)
+                findNavController().popBackStack()
             }
             true
         }

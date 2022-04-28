@@ -39,19 +39,29 @@
         android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@id/authorField" />
 
+    <EditText
+        android:id="@+id/publisherField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/publisher"
+        android:inputType="textNoSuggestions"
+        android:textColorHint="@color/dark_grey"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/linkField" />
+
     <Spinner
         android:id="@+id/typeField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/linkField" />
+        app:layout_constraintTop_toBottomOf="@id/publisherField" />
 
     <EditText
         android:id="@+id/descriptionField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/short_description"
-        android:inputType="textNoSuggestions"
+        android:inputType="textMultiLine"
         android:textColorHint="@color/dark_grey"
         app:layout_constraintTop_toBottomOf="@id/typeField" />
 

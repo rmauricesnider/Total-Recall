@@ -26,4 +26,5 @@
     <string name="add_tag">Add Tag</string>
     <string name="edit_resource">Edit Resource</string>
     <string name="delete_resource">Delete Resource</string>
+    <string name="publisher">Publisher</string>
 </resources>

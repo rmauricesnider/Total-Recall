@@ -60,4 +60,16 @@ class RecyclerAdapter(private val resources: MutableList<Resource>, private val 
         return resources.lastIndex
     }
 
+    fun removeFromList(i: Int): Int {
+
+        for((x, r) in resources.withIndex()) {
+            if (r.resourceId == i) {
+                resources.remove(r)
+                return x
+            }
+        }
+        return -1
+
+    }
+
 }

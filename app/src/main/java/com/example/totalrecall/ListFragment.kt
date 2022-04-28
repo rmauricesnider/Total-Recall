@@ -73,10 +73,18 @@ class ListFragment: Fragment() {
                 recyclerAdapter.notifyItemInserted(i)
             }
         }
+        navController.currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("DELETED")
+            ?.observe(viewLifecycleOwner) { result ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    val i = recyclerAdapter.removeFromList(result)
+                    recyclerAdapter.notifyItemRemoved(i)
+                    showToast("Deleted resource")
+                }
+            }
 
         CoroutineScope(Dispatchers.IO).launch {
-            recyclerAdapter = RecyclerAdapter(resourceRepository.getAllResources().toMutableList(), resourceRepository)
-
+            val mutableList = resourceRepository.getAllResources().toMutableList()
+            recyclerAdapter = RecyclerAdapter(mutableList, resourceRepository)
             recyclerAdapter.setOnClickListener {
                 val num: Int = it.tag as Int
                 if (container != null) {
@@ -92,11 +100,11 @@ class ListFragment: Fragment() {
 
 
         binding.tagButton.setOnClickListener {
-            val text: String = binding.tagTextView.text.toString()
+            val text: String = binding.tagTextView.text.toString().trim()
+            binding.tagTextView.text.clear()
             if (text.length < 2) {
                 showToast("Tag must be at least 2 characters long")
             } else {
-                binding.tagTextView.text.clear()
                 CoroutineScope(Dispatchers.IO).launch {
                     if (resourceRepository.getTagByName(text) == null) {
                         val rnd = Random()
