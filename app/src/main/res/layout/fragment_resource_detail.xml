@@ -8,7 +8,8 @@
     android:background="@color/white"
     android:padding="@dimen/spacing_title"
     android:paddingTop="@dimen/spacing_title"
-    tools:context=".ResourceDetailFragment">
+    tools:context=".ResourceDetailFragment"
+    android:baselineAligned="false">
 
     <TextView
         android:id="@+id/title_text"
@@ -17,11 +18,9 @@
         android:text="Filler title"
         android:textColor="@color/dark_grey"
         android:textSize="@dimen/text_resource_title"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/imageView3"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/publisher_text"
@@ -40,7 +39,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Filler author"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +53,7 @@
         android:text="Filler Link"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/author_text" />
+        app:layout_constraintTop_toBottomOf="@id/author_text" />
 
     <TextView
         android:id="@+id/description_text"
@@ -105,7 +104,8 @@
         android:layout_height="wrap_content"
         android:paddingRight="@dimen/margin_small"
         android:src="@drawable/resource_icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBaseline_toBaselineOf="@id/title_text" />
+        app:layout_constraintTop_toTopOf="@id/title_text"
+        app:layout_constraintBottom_toBottomOf="@id/title_text"
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

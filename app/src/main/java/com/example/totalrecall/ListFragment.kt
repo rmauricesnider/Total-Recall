@@ -9,25 +9,29 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.navigation.fragment.findNavController
-import com.example.totalrecall.data.AppDatabase
-import com.example.totalrecall.data.Resource
-import com.example.totalrecall.data.ResourceRepository
-import com.example.totalrecall.data.Tag
+import com.example.totalrecall.data.*
 import com.example.totalrecall.databinding.FragmentItemListBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
+import java.util.stream.IntStream.range
+import kotlin.random.Random
 
 class ListFragment: Fragment() {
 
-    //private var param1: List<Int>? = null
     private var _binding: FragmentItemListBinding ?= null
     private val binding get() = _binding!!
     private var tagIds = intArrayOf()
     private lateinit var resourceRepository: ResourceRepository
     private val hexChars: CharArray = charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'A', 'B', 'C', 'D', 'E', 'F')
     private lateinit var recyclerAdapter: RecyclerAdapter
+    private val titleNounList: List<String> = listOf("Florida man", "Escaped convict", "Esteemed Senator", "Local wildlife", "Rebellious youth", "Reanimated corpse")
+    private val titleVerbList: List<String> = listOf("finds lost artifact", "punches local citizen", "discovers fossil", "wins lottery", "abducted by aliens", "falls into sinkhole")
+    private val firstNameList: List<String> = listOf("Lou", "Phil", "Allison", "Adolf", "Gerry", "Vernus")
+    private val lastNameList: List<String> = listOf("Sassel", "Banda", "Wilson", "Zoidberg", "Churchill", "Allen")
+    private val publishersList: List<String> = listOf("Far Out News", "The Daily Dale", "Old News Today", "Cartoon Network")
+
 
     @Override
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,10 +111,9 @@ class ListFragment: Fragment() {
             } else {
                 CoroutineScope(Dispatchers.IO).launch {
                     if (resourceRepository.getTagByName(text) == null) {
-                        val rnd = Random()
                         var color = "#"
                         while(color.length < 7) {
-                            color = color.plus(hexChars[rnd.nextInt(hexChars.size)])
+                            color = color.plus(hexChars.random())
                         }
                         val tag = Tag(name = text, color = color)
                         resourceRepository.addTag(tag)
@@ -139,6 +142,13 @@ class ListFragment: Fragment() {
         }
     }
 
+    private fun addItem(resource: Resource) {
+        this.activity?.runOnUiThread {
+            val i = recyclerAdapter.addToList(resource)
+            recyclerAdapter.notifyItemInserted(i)
+        }
+    }
+
     @Override
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.add_item_bar_action -> {
@@ -154,6 +164,27 @@ class ListFragment: Fragment() {
         R.id.clear_unbound_tags_bar_action -> {
             clearTags()
             showToast("Deleted unbound tags")
+            true
+        }
+
+
+        R.id.example_bar_action -> {
+            var newResource: Resource
+            var i: Int
+            CoroutineScope(Dispatchers.IO).launch {
+                for(x in range(0, 3)) {
+                    newResource = Resource(
+                    title = "${titleNounList.random()} ${titleVerbList.random()}",
+                    author = "${firstNameList.random()} ${lastNameList.random()}",
+                    publisher = publishersList.random(),
+                    link = "examplelink.org",
+                    dateAdded = Date().toString(),
+                    type = ResourceType.values().random(),
+                    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+                    resourceRepository.addResource(newResource)
+                    addItem(newResource)
+                }
+            }
             true
         }
 

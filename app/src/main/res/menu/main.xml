@@ -27,7 +27,7 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/settings_bar_action"
-        android:title="@string/settings"
+        android:id="@+id/example_bar_action"
+        android:title="Add example data"
         app:showAsAction="never" />
 </menu>
