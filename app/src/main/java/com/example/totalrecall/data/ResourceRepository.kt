@@ -2,7 +2,7 @@ package com.example.totalrecall.data
 
 class ResourceRepository(private val resourceDao: ResourceDAO) {
     //Resource Operations
-    suspend fun addResource(resource: Resource) =
+    suspend fun addResource(resource: Resource): Long =
         resourceDao.insertResource(resource)
 
     suspend fun getAllResources() =

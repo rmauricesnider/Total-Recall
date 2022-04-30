@@ -1,24 +1,15 @@
 package com.example.totalrecall
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.generateViewId
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.helper.widget.Flow
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.totalrecall.data.Resource
 import com.example.totalrecall.data.ResourceRepository
-import com.example.totalrecall.data.ResourceTagRel
-import com.example.totalrecall.data.Tag
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class RecyclerAdapter(private val resources: MutableList<Resource>, private val resourceRepository: ResourceRepository) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     private var onClickListener: View.OnClickListener? = null
@@ -47,7 +38,7 @@ class RecyclerAdapter(private val resources: MutableList<Resource>, private val 
     }
 
     override fun getItemCount(): Int {
-            return resources.size
+        return resources.size
     }
 
     fun setList(list: List<Resource>) {
@@ -61,7 +52,6 @@ class RecyclerAdapter(private val resources: MutableList<Resource>, private val 
     }
 
     fun removeFromList(i: Int): Int {
-
         for((x, r) in resources.withIndex()) {
             if (r.resourceId == i) {
                 resources.remove(r)
@@ -69,7 +59,6 @@ class RecyclerAdapter(private val resources: MutableList<Resource>, private val 
             }
         }
         return -1
-
     }
 
 }

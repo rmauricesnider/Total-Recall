@@ -2,6 +2,7 @@ package com.example.totalrecall
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
@@ -63,6 +64,7 @@ class ListFragment: Fragment() {
                     tagIds = result
                     recyclerAdapter.setList(resourceRepository.getResourcesByTags(tagIds))
                     recyclerAdapter.notifyDataSetChanged()
+                    navController.currentBackStackEntry?.savedStateHandle?.remove<IntArray>("TAGS")
                 }
             }
         navController.currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("ADDED")
@@ -75,6 +77,7 @@ class ListFragment: Fragment() {
 
                 val i = recyclerAdapter.addToList(resource)
                 recyclerAdapter.notifyItemInserted(i)
+                navController.currentBackStackEntry?.savedStateHandle?.remove<Int>("ADDED")
             }
         }
         navController.currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("DELETED")
@@ -83,6 +86,7 @@ class ListFragment: Fragment() {
                     val i = recyclerAdapter.removeFromList(result)
                     recyclerAdapter.notifyItemRemoved(i)
                     showToast("Deleted resource")
+                    navController.currentBackStackEntry?.savedStateHandle?.remove<Int>("DELETED")
                 }
             }
 
@@ -170,18 +174,20 @@ class ListFragment: Fragment() {
 
         R.id.example_bar_action -> {
             var newResource: Resource
-            var i: Int
+            var i: Long
+            val rnd = Random
             CoroutineScope(Dispatchers.IO).launch {
                 for(x in range(0, 3)) {
                     newResource = Resource(
-                    title = "${titleNounList.random()} ${titleVerbList.random()}",
-                    author = "${firstNameList.random()} ${lastNameList.random()}",
-                    publisher = publishersList.random(),
+                    title = "${titleNounList.random(rnd)} ${titleVerbList.random(rnd)}",
+                    author = "${firstNameList.random(rnd)} ${lastNameList.random(rnd)}",
+                    publisher = publishersList.random(rnd),
                     link = "examplelink.org",
                     dateAdded = Date().toString(),
-                    type = ResourceType.values().random(),
+                    type = ResourceType.values().random(rnd),
                     description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
-                    resourceRepository.addResource(newResource)
+                    i = resourceRepository.addResource(newResource)
+                    newResource.resourceId = i.toInt()
                     addItem(newResource)
                 }
             }

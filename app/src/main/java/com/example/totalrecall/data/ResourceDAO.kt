@@ -6,7 +6,7 @@ import androidx.room.*
 interface ResourceDAO {
     //Resource
     @Insert(entity = Resource::class)
-    fun insertResource(resource: Resource)
+    fun insertResource(resource: Resource): Long
 
     @Query("SELECT * FROM resources")
     fun getAllResources(): List<Resource>

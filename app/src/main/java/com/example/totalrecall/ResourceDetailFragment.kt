@@ -6,6 +6,7 @@ import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
+import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -36,7 +37,9 @@ class ResourceDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            param1 = it.getInt(ARG_PARAM1)
+            if (it.containsKey(ARG_PARAM1)) {
+                param1 = it.getInt(ARG_PARAM1)
+            }
         }
     }
 
