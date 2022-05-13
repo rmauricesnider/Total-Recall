@@ -179,7 +179,6 @@ class ResourceDetailFragment : Fragment() {
         else -> {
             super.onOptionsItemSelected(item)
         }
-
     }
 
     @Override

@@ -30,7 +30,7 @@ class ListFragment: Fragment() {
     private val titleNounList: List<String> = listOf("Florida man", "Escaped convict", "Esteemed Senator", "Local wildlife", "Rebellious youth", "Reanimated corpse")
     private val titleVerbList: List<String> = listOf("finds lost artifact", "punches local citizen", "discovers fossil", "wins lottery", "abducted by aliens", "falls into sinkhole")
     private val firstNameList: List<String> = listOf("Lou", "Phil", "Allison", "Adolf", "Gerry", "Vernus")
-    private val lastNameList: List<String> = listOf("Sassel", "Banda", "Wilson", "Zoidberg", "Churchill", "Allen")
+    private val lastNameList: List<String> = listOf("Banda", "Wilson", "Zoidberg", "Churchill", "Allen")
     private val publishersList: List<String> = listOf("Far Out News", "The Daily Dale", "Old News Today", "Cartoon Network")
 
 
@@ -179,9 +179,9 @@ class ListFragment: Fragment() {
             CoroutineScope(Dispatchers.IO).launch {
                 for(x in range(0, 3)) {
                     newResource = Resource(
-                    title = "${titleNounList.random(rnd)} ${titleVerbList.random(rnd)}",
-                    author = "${firstNameList.random(rnd)} ${lastNameList.random(rnd)}",
-                    publisher = publishersList.random(rnd),
+                    title = "${titleNounList.random()} ${titleVerbList.random()}",
+                    author = "${firstNameList.random()} ${lastNameList.random()}",
+                    publisher = publishersList.random(),
                     link = "examplelink.org",
                     dateAdded = Date().toString(),
                     type = ResourceType.values().random(rnd),

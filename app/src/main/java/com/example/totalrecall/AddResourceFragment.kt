@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 private const val RESOURCE_ID = "RES_ID"
-private const val SHARE_LINK = "SHARE_LINK"
+//private const val SHARE_LINK = "SHARE_LINK"
 
 class AddResourceFragment : Fragment() {
     private var existingResourceID: Int? = null
@@ -53,8 +53,8 @@ class AddResourceFragment : Fragment() {
 
         val intent = activity?.intent
         if(intent?.action == Intent.ACTION_SEND) {
-            //val bundle = Bundle()
             shareLink = intent.getStringExtra(Intent.EXTRA_TEXT)
+            intent.removeExtra(Intent.EXTRA_TEXT)
         }
 
         ArrayAdapter.createFromResource(requireContext(), R.array.spinner_list, android.R.layout.simple_spinner_item)
@@ -72,15 +72,7 @@ class AddResourceFragment : Fragment() {
         } else if (existingResourceID != null ) {
             CoroutineScope(Dispatchers.IO).launch {
                 resource = resourceRepository.getResource(existingResourceID!!)
-                binding.titleField.setText(resource.title)
-                binding.authorField.setText(resource.author)
-                binding.linkField.setText(resource.link)
-                binding.publisherField.setText(resource.publisher)
-                binding.descriptionField.setText(resource.description)
-                binding.typeField.setSelection(resource.type.ordinal)
-                binding.commitAdd.text = "Update Resource"
-
-                activity?.findViewById<Toolbar>(R.id.toolbar)?.title = "Update"
+                fillUpdateFields(resource)
             }
         }
 
@@ -110,5 +102,18 @@ class AddResourceFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun fillUpdateFields(resource: Resource) {
+        activity?.runOnUiThread {
+            binding.titleField.setText(resource.title)
+            binding.authorField.setText(resource.author)
+            binding.linkField.setText(resource.link)
+            binding.publisherField.setText(resource.publisher)
+            binding.descriptionField.setText(resource.description)
+            binding.typeField.setSelection(resource.type.ordinal)
+            binding.commitAdd.text = "Update Resource"
+            activity?.findViewById<Toolbar>(R.id.toolbar)?.title = "Update"
+        }
     }
 }

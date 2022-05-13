@@ -13,7 +13,8 @@
             android:name="com.example.totalrecall.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.TotallRecall.NoActionBar"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
