@@ -1,51 +1,71 @@
 package com.example.totalrecall.data
 
+import androidx.room.Delete
+import androidx.room.Update
+
 class ResourceRepository(private val resourceDao: ResourceDAO) {
     //Resource Operations
-    suspend fun addResource(resource: Resource): Long =
+    fun addResource(resource: Resource): Long =
         resourceDao.insertResource(resource)
 
-    suspend fun getAllResources() =
+    fun getAllResources() =
         resourceDao.getAllResources()
 
-    suspend fun getResource(id: Int) =
+    fun getResource(id: Int) =
         resourceDao.getResource(id)
 
-    suspend fun deleteResource(res: Resource) =
+    fun deleteResource(res: Resource) =
         resourceDao.deleteResource(res)
 
-    suspend fun updateResource(resource: Resource) =
+    fun updateResource(resource: Resource) =
         resourceDao.updateResource(resource)
 
-    suspend fun getResourcesByTags(tags: IntArray) =
+    fun getResourcesByTags(tags: IntArray) =
         resourceDao.getResourcesByTags(tags.size, tags)
 
-    suspend fun getResourcesById(ids: IntArray) =
+    fun getResourcesById(ids: IntArray) =
         resourceDao.getResourcesById(ids)
 
     //Tag Operations
-    suspend fun getAllTags() =
+    fun getAllTags() =
         resourceDao.getAllTags()
 
-    suspend fun getAllTagNames() =
+    fun getAllTagNames() =
         resourceDao.getAllTagNames()
 
-    suspend fun addTag(tag: Tag) =
+    fun addTag(tag: Tag) =
         resourceDao.addTag(tag)
 
-    suspend fun getTagByName(name: String) =
+    fun getTagByName(name: String) =
         resourceDao.getTagByName(name)
 
-    suspend fun getTagsFromResourceId(i: Int) =
+    fun getTagsFromResourceId(i: Int) =
         resourceDao.getTagsFromResourceId(i)
 
-    suspend fun clearUnboundTags(): Int =
+    fun clearUnboundTags(): Int =
         resourceDao.clearUnboundTags()
 
     //Resource Tag Join
-    suspend fun addResourceTagRel(resourceTagRel: ResourceTagRel) =
+    fun addResourceTagRel(resourceTagRel: ResourceTagRel) =
         resourceDao.addResourceTagRel(resourceTagRel)
 
-    suspend fun removeResourceTagRelation(rId: Int, tId: Int) =
+    fun removeResourceTagRelation(rId: Int, tId: Int) =
         resourceDao.removeResourceTagRel(rId, tId)
+
+    //Contributors
+    fun addContributor(contributor: Contributor) =
+        resourceDao.addContributor(contributor)
+
+
+    fun getContributorCountByResource(resourceId: Int): Int =
+        resourceDao.getContributorCountByResource(resourceId)
+
+    fun getContributorsForResource(resourceId: Int): List<Contributor> =
+        resourceDao.getContributorsForResource(resourceId)
+
+    fun updateContributor(contributor: Contributor) =
+        resourceDao.updateContributor(contributor)
+
+    fun deleteContributor(resourceId: Int, position: Int) =
+        resourceDao.deleteContributor(resourceId, position)
 }

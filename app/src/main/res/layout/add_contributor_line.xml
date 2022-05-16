@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:id="@+id/add_contributor_line">
+
+    <EditText
+        android:id="@+id/contributor_name_field"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:hint="@string/name"
+        android:autofillHints="name"
+        android:inputType="text"
+        android:layout_weight="3"
+        android:maxLines="1" />
+
+    <EditText
+        android:id="@+id/contributor_type_field"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:hint="@string/contribution"
+        android:autofillHints=""
+        android:inputType="text"
+        android:layout_weight="3"
+        android:maxLines="1" />
+
+    <ImageButton
+        android:id="@+id/remove_contributor_button"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/delete"
+        android:layout_weight="1" />
+</TableRow>

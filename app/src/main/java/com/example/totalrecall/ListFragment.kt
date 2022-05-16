@@ -179,9 +179,7 @@ class ListFragment: Fragment() {
             CoroutineScope(Dispatchers.IO).launch {
                 for(x in range(0, 3)) {
                     newResource = Resource(
-                    title = "${titleNounList.random()} ${titleVerbList.random()}",
-                    author = "${firstNameList.random()} ${lastNameList.random()}",
-                    publisher = publishersList.random(),
+                    title = "${titleNounList.random(rnd)} ${titleVerbList.random(rnd)}",
                     link = "examplelink.org",
                     dateAdded = Date().toString(),
                     type = ResourceType.values().random(rnd),

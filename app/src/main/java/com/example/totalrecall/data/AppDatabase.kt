@@ -12,7 +12,7 @@ import com.example.totalrecall.data.Tag
 
 private const val NAME = "app-database"
 
-@Database(entities = [Resource::class, Tag::class, ResourceTagRel::class], version = 1, exportSchema = false)
+@Database(entities = [Resource::class, Tag::class, ResourceTagRel::class, Contributor::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun resourceDao(): ResourceDAO
     //abstract fun tagDao(): TagDAO

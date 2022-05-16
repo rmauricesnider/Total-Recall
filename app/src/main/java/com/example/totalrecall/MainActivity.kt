@@ -2,7 +2,6 @@ package com.example.totalrecall
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
@@ -32,5 +31,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+    @Override
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        finish()
+        this.startActivity(intent)
+    }
 }

@@ -10,8 +10,6 @@ data class Resource (
     @PrimaryKey(autoGenerate = true)
     var resourceId: Int = 0,
     val title: String,
-    val author: String,
-    val publisher: String?,
     val link: String,
     val dateAdded: String,
     val type: ResourceType,

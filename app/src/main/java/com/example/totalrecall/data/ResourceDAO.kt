@@ -70,4 +70,19 @@ interface ResourceDAO {
     @Query("SELECT * FROM resource_tag_join")
     fun getAllResourceTagRel(): List<ResourceTagRel>
 
+    //Contributor
+    @Insert(entity = Contributor::class)
+    fun addContributor(contributor: Contributor)
+
+    @Query("SELECT COUNT(*) FROM contributors WHERE resourceId = :resourceId")
+    fun getContributorCountByResource(resourceId: Int): Int
+
+    @Query("SELECT * FROM contributors WHERE resourceId = :resourceId")
+    fun getContributorsForResource(resourceId: Int): List<Contributor>
+
+    @Update
+    fun updateContributor(contributor: Contributor)
+
+    @Query("DELETE FROM contributors WHERE resourceId = :resourceId AND position = :position")
+    fun deleteContributor(resourceId: Int, position: Int)
 }

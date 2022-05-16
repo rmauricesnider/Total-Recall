@@ -6,7 +6,6 @@ import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -26,19 +25,20 @@ import kotlinx.coroutines.launch
 private const val ARG_PARAM1 = "RES_ID"
 
 class ResourceDetailFragment : Fragment() {
-    private var param1: Int? = null
+    private var resourceIdParam: Int? = null
     private var _binding: FragmentResourceDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var resource: Resource
     private var resourceRepository: ResourceRepository? = null
     private var confirmDeleteResource: Int = 0
+    private lateinit var contributors: List<Contributor>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
             if (it.containsKey(ARG_PARAM1)) {
-                param1 = it.getInt(ARG_PARAM1)
+                resourceIdParam = it.getInt(ARG_PARAM1)
             }
         }
     }
@@ -54,19 +54,16 @@ class ResourceDetailFragment : Fragment() {
         setHasOptionsMenu(true)
 
         resourceRepository = ResourceRepository(AppDatabase.getInstance(requireContext()).resourceDao())
-        if (param1 != null) {
+        if (resourceIdParam != null) {
             CoroutineScope(Dispatchers.IO).launch {
-                resource = resourceRepository!!.getResource(param1!!)
+                resource = resourceRepository!!.getResource(resourceIdParam!!)
+                contributors = resourceRepository!!.getContributorsForResource(resourceIdParam!!)
                 binding.titleText.text = resource.title
-                binding.authorText.text = resource.author
                 binding.linkText.text = resource.link
                 binding.linkText.movementMethod = LinkMovementMethod.getInstance()
-                binding.publisherText.text = resource.publisher
-                if(resource.publisher.isNullOrEmpty()) {
-                    binding.publisherText.height = 0
-                }
                 binding.descriptionText.text = resource.description
                 addViewsToFlow(resourceRepository!!.getTagsFromResourceId(resource.resourceId))
+                addRowsToTable(contributors)
                 setAutoCompleteTextViewAdapter(binding.autocompleteTextView, resourceRepository!!.getAllTagNames())
             }
         }
@@ -135,6 +132,16 @@ class ResourceDetailFragment : Fragment() {
                 binding.root.addView(textView)
                 binding.tagFlow.addView(textView)
             }
+        }
+    }
+
+    private fun addRowsToTable(contributors: List<Contributor>) {
+        lateinit var contributorView: View
+        for(contributor in contributors) {
+            contributorView = View.inflate(requireContext(), R.layout.contributor_line, null)
+            contributorView.findViewById<TextView>(R.id.contributor_name).text = contributor.name
+            contributorView.findViewById<TextView>(R.id.contributor_type).text = contributor.contribution
+            binding.contributorsTable.addView(contributorView)
         }
     }
 

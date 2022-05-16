@@ -2,13 +2,13 @@ package com.example.totalrecall
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.get
 import androidx.navigation.fragment.findNavController
 import com.example.totalrecall.data.*
 import com.example.totalrecall.databinding.FragmentAddResourceBinding
@@ -16,9 +16,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.math.min
 
 private const val RESOURCE_ID = "RES_ID"
-//private const val SHARE_LINK = "SHARE_LINK"
 
 class AddResourceFragment : Fragment() {
     private var existingResourceID: Int? = null
@@ -27,6 +27,7 @@ class AddResourceFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var resource: Resource
+    private lateinit var contributors: List<Contributor>
     private var shareLink: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +51,7 @@ class AddResourceFragment : Fragment() {
         val view: View = binding.root
         val resourceDao: ResourceDAO = AppDatabase.getInstance(requireContext()).resourceDao()
         val resourceRepository = ResourceRepository(resourceDao)
+        val isUpdate = (existingResourceID != null)
 
         val intent = activity?.intent
         if(intent?.action == Intent.ACTION_SEND) {
@@ -64,56 +66,129 @@ class AddResourceFragment : Fragment() {
                 }
         if(!shareLink.isNullOrEmpty()) {
             binding.linkField.setText(shareLink)
-
             binding.titleField.setText("")
-            binding.authorField.setText("")
             binding.descriptionField.setText("")
             binding.typeField.setSelection(0)
-        } else if (existingResourceID != null ) {
+        } else if (isUpdate) {
             CoroutineScope(Dispatchers.IO).launch {
                 resource = resourceRepository.getResource(existingResourceID!!)
-                fillUpdateFields(resource)
+                contributors = resourceRepository.getContributorsForResource(resource.resourceId)
+                fillUpdateFields(resource, contributors)
             }
         }
 
         binding.commitAdd.setOnClickListener {
-            val newResource = Resource(title = binding.titleField.text.toString(),
-                    author = binding.authorField.text.toString(),
-                    publisher = null,
-                    link = binding.linkField.text.toString(),
-                    dateAdded = Date().toString(),
-                    type = ResourceType.values()[binding.typeField.selectedItemPosition], //could not find better way to do this :/
-                    description = binding.descriptionField.text.toString())
+            val contributors = mutableListOf<Contributor>()
+            val tableChildren = binding.editContributorsTable
+            lateinit var name: String
+            lateinit var contribution: String
+            lateinit var childRow: TableRow
+            val title: String = binding.titleField.text.toString()
+            val link: String = binding.linkField.text.toString()
+            val type: ResourceType = ResourceType.values()[binding.typeField.selectedItemPosition] //could not find better way to do this :/
+            val description: String = binding.descriptionField.text.toString()
 
-            CoroutineScope(Dispatchers.IO).launch {
-                if (existingResourceID == null) {
-                    resourceRepository.addResource(newResource)
-                } else {
-                    newResource.resourceId = resource.resourceId
-                    resourceRepository.updateResource(newResource)
+            var emptyContributorField = false
+
+            var i = 1
+            while(i < tableChildren.childCount) {
+                childRow = tableChildren.getChildAt(i) as TableRow
+                name = (childRow[0] as EditText).text.toString()
+                contribution = (childRow[1] as EditText).text.toString()
+                if(name.isEmpty() || contribution.isEmpty()) {
+                    emptyContributorField = true
+                    break
                 }
+                contributors.add(Contributor(name, contribution, 0, i - 1))
+                i++
             }
 
-            if(existingResourceID == null) {
-                findNavController().previousBackStackEntry?.savedStateHandle?.set("ADDED",
-                    newResource.resourceId)
+            if(title.isEmpty() || link.isEmpty() || description.isEmpty() || emptyContributorField) {
+                showToast("Can't have empty fields")
+            } else {
+                val newResource = Resource(title = title, link = link,
+                    dateAdded = Date().toString(), type = type, description = description)
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    if (!isUpdate) {
+                        val id = resourceRepository.addResource(newResource).toInt()
+                        for (contributor in contributors) {
+                            contributor.resourceId = id
+                            resourceRepository.addContributor(contributor)
+                        }
+                    } else {
+                        newResource.resourceId = resource.resourceId
+                        resourceRepository.updateResource(newResource)
+
+                        val numOldContributors =
+                            resourceRepository.getContributorCountByResource(resource.resourceId)
+                        val numNewContributors = contributors.size
+
+                        for (contributor in contributors) {
+                            contributor.resourceId = resource.resourceId
+                        }
+
+                        for (x in numNewContributors until numOldContributors) { //delete contributors if new list is shorter
+                            resourceRepository.deleteContributor(resource.resourceId, x)
+                        }
+
+                        for (x in 0 until min(numOldContributors,
+                            numNewContributors)) { //update contributors
+                            resourceRepository.updateContributor(contributors[x])
+                        }
+
+                        for (x in numOldContributors until numNewContributors) { //add contributors
+                            resourceRepository.addContributor(contributors[x])
+                        }
+
+                    }
+                }
+
+                if (!isUpdate) {
+                    findNavController().previousBackStackEntry?.savedStateHandle?.set("ADDED",
+                        newResource.resourceId)
+                }
+                findNavController().popBackStack()
             }
-            findNavController().popBackStack()
         }
+
+        binding.addContributorButton.setOnClickListener { addContributorRow() }
 
         return view
     }
 
-    private fun fillUpdateFields(resource: Resource) {
+    private fun addContributorRow(contributor: Contributor? = null) {
+        val contributorView: View = View.inflate(requireContext(), R.layout.add_contributor_line, null)
+        contributorView.findViewById<ImageButton>(R.id.remove_contributor_button).setOnClickListener {
+            binding.editContributorsTable.removeView(it.parent as View)
+        }
+
+        if(contributor != null) {
+            contributorView.findViewById<EditText>(R.id.contributor_name_field).setText(contributor.name)
+            contributorView.findViewById<EditText>(R.id.contributor_type_field).setText(contributor.contribution)
+        }
+
+        binding.editContributorsTable.addView(contributorView)
+    }
+
+    private fun fillUpdateFields(resource: Resource, contributors: List<Contributor>) {
+        binding.commitAdd.text = "Update Resource"
+        activity?.findViewById<Toolbar>(R.id.toolbar)?.title = "Update"
         activity?.runOnUiThread {
             binding.titleField.setText(resource.title)
-            binding.authorField.setText(resource.author)
             binding.linkField.setText(resource.link)
-            binding.publisherField.setText(resource.publisher)
             binding.descriptionField.setText(resource.description)
             binding.typeField.setSelection(resource.type.ordinal)
-            binding.commitAdd.text = "Update Resource"
-            activity?.findViewById<Toolbar>(R.id.toolbar)?.title = "Update"
+
+            for(contributor in contributors) {
+                addContributorRow(contributor)
+            }
+        }
+    }
+
+    private fun showToast(toast: String?, length: Int = Toast.LENGTH_SHORT) {
+        this.activity?.runOnUiThread {
+            Toast.makeText(requireContext(), toast, length).show()
         }
     }
 }
